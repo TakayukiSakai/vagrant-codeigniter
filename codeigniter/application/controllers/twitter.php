@@ -1,6 +1,12 @@
 <?php
 class Twitter extends CI_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('twitter_model');
+    }
+
     #ログイン画面
     public function signin()
     {
@@ -21,7 +27,7 @@ class Twitter extends CI_Controller
         }
         else
         {
-            if ($this->confirm() === null)
+            if (!$this->twitter_model->signin())
             #認証失敗
             {
                 $data['message'] =
@@ -62,7 +68,7 @@ class Twitter extends CI_Controller
         }
         else
         {
-            if ($this->register() === null)
+            if (!$this->twitter_model->signup())
             #登録失敗
             {
                 $data['message'] = 'そのメールアドレスは既に登録されています。';
@@ -103,25 +109,6 @@ class Twitter extends CI_Controller
         {
             show_error("ツイートしました。");
         }
-    }
-
-
-###############以下、private関数##################
-
-    #ユーザー認証用の関数
-    #認証が成功した場合はアカウントIDを返す
-    #認証が失敗した場合はnullを返す
-    private function confirm()
-    {
-        return 1;
-    }
-
-    #ユーザー登録用の関数
-    #登録が成功した場合は作成されたアカウントIDを返す
-    #登録が失敗した場合はnullを返す
-    private function register()
-    {
-        return 1;
     }
 }
 

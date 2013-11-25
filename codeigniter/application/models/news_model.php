@@ -3,7 +3,22 @@ class News_model extends CI_Model
 {
     public function __construct()
     {
-        $this->load->database();
+        $config['hostname'] = 'localhost';
+        $config['username'] = 'root';
+        $config['password'] = '';
+        $config['database'] = 'codeigniter';
+        $config['dbdriver'] = 'mysql';
+        $config['dbprefix'] = '';
+        $config['pconnect'] = TRUE;
+        $config['db_debug'] = TRUE;
+        $config['cache_on'] = FALSE;
+        $config['cachedir'] = '';
+        $config['char_set'] = 'utf8';
+        $config['dbcollat'] = 'utf8_general_ci';
+        $config['swap_pre'] = '';
+        $config['autoinit'] = TRUE;
+        $config['stricton'] = FALSE;
+        $this->load->database($config);
     }
 
     public function get_news($slug = false)
