@@ -9,7 +9,7 @@
 <br />
 <?php echo validation_errors(); ?>
 
-<?php echo form_open('twitter/signin') ?>
+<?php echo form_open('signin') ?>
 
     <label for="address">メールアドレス</label>
     <input type="input" name="address" value=<?php echo $address ?> ></input><br />
@@ -21,5 +21,5 @@
 
 </form>
 
-<p><a href="../twitter/signup">ユーザー登録する</a></p>
+<p><a href="../signup">ユーザー登録する</a></p>
 

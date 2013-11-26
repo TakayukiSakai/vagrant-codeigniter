@@ -43,7 +43,7 @@ $route['news/create'] = 'news/create';
 $route['news/(:any)'] = 'news/view/$1';
 $route['news'] = 'news';
 
-$route['default_controller'] = "twitter/signin";
+$route['default_controller'] = "signin";
 
 
 /* End of file routes.php */

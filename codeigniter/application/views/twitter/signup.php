@@ -10,7 +10,7 @@
 <br />
 <?php echo validation_errors(); ?>
 
-<?php echo form_open('twitter/signup') ?>
+<?php echo form_open('signup') ?>
 
     <label for="name">名前</label>
     <input type="input" name="name" value=<?php echo $name ?> ></input><br />
