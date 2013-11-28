@@ -1,8 +1,3 @@
-<?php
-    $address = isset($_POST['address']) ? $_POST['address'] : "";
-    $pass = isset($_POST['pass']) ? $_POST['pass'] : "";
-?>
-
 <h2>ログインして下さい</h2>
 
 <?php echo $message ?>
@@ -15,7 +10,7 @@
     <input type="input" name="address" value=<?php echo $address ?> ></input><br />
 
     <label for="pass">パスワード</label>
-    <input type="password" name="pass" value=<?php echo $pass ?> ></input><br />
+    <input type="password" name="pass" value=<?php echo $password ?> ></input><br />
 
     <input type="submit" name="signin" value="ログインする" /><br /><br />
 

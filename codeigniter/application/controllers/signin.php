@@ -4,55 +4,74 @@ class Signin extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('twitter_model');
+        $this->load->model('user_model');
     }
 
     #ログイン画面
     public function index()
     {
         $this->load->helper('form');
+        $this->load->helper('url');
         $this->load->library('form_validation');
         $this->load->library('session');
 
-        $data['title'] = 'ログイン';
-        $data['message'] = '';
+        if ($this->session->userdata('username') != false){
+            redirect('/mypage', 'location');
+        }
+
+        $page['title'] = 'ログイン';
+        $page['message'] = '';
+        $page['username'] = $this->session->userdata('username');
+        $page['address'] = $this->input->post('address');
+        $page['password'] = $this->input->post('pass');
 
         $this->form_validation->set_rules('address', 'メールアドレス', 'trim|required|valid_email');
         $this->form_validation->set_rules('pass', 'パスワード', 'trim|required|alpha_numeric|min_length[6]');
 
-        if ($this->form_validation->run() === false)
-        {
-            $this->load->view('twitter/templates/header', $data);
-            $this->load->view('twitter/signin', $data);
+        $result = $this->input_check();
+
+        if ($result === 0){
+        #認証失敗
+            #validation error
+            $this->load->view('twitter/templates/header', $page);
+            $this->load->view('twitter/signin', $page);
             $this->load->view('twitter/templates/footer');
+        }elseif ($result === 1){
+            #アドレスとパスワードの不一致
+            $page['message'] = 'メールアドレスとパスワードの組み合わせが間違っているようです。';
+            $this->load->view('twitter/templates/header', $page);
+            $this->load->view('twitter/signin', $page);
+            $this->load->view('twitter/templates/footer');
+        }else{
+        #認証成功
+            $newdata = array(
+                'username' => $result
+            );
+            $this->session->set_userdata($newdata);
+            redirect('/mypage', 'location');
         }
-        else
-        {
-            if (!$this->twitter_model->signin())
-            #認証失敗
-            {
-                $data['message'] =
-                    'メールアドレスとパスワードの組み合わせが間違っているようです。';
+    }
 
-                $this->load->view('twitter/templates/header', $data);
-                $this->load->view('twitter/signin', $data);
-                $this->load->view('twitter/templates/footer');
-            }
-            else
-            #認証成功
-            {
-                $newdata = array(
-                    'username' => $this->input->post('address')
-                );
-                $this->session->set_userdata($newdata);
-                $this->load->view('twitter/templates/header', $data);
-                $this->load->view('twitter/home', $data);
-                $this->load->view('twitter/templates/footer');
+    #ログインできるかチェックする。
+    #できれば、ユーザー名を返す
+    private function input_check(){
+        if ($this->form_validation->run() === false){
+            #入力構文エラーの場合は自動でエラー文が生成されるので、""を返す。
+            return 0;
+        }else{
+            $signin_data = array(
+                'address' => $this->input->post('address'),
+                'password' => $this->input->post('pass')
+            );
+
+            $result = $this->user_model->signin($signin_data);
+            if ($result === false){
+            #アドレスとパスワードが不一致
+                return 1;
+            }else{
+                return $result;
             }
         }
-
-        var_dump($this->session->userdata('username'));
-
     }
 }
 
