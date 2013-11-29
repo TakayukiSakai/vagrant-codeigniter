@@ -1,8 +1,23 @@
+html{
+    height: 100%;
+}
 body{
     margin: 0;
     padding: 0;
+    height: 100%;
     font-family: 'Lucida Grande', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', Meiryo, 'メイリオ', sans-serif;
     background-color: #eee;
+    overflow-y: scroll;
+}
+
+#main{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    min-height: 100%;
+}
+body > #main{
+    height: auto;
 }
 
 #top_bar{
@@ -19,8 +34,40 @@ body{
     padding: 5px 30px 0;
     border-left: solid 1px #000;
     border-right: solid 1px #000;
+    border-bottom: solid 1px #000;
     width: 80%;
-    height: 100%;
-    min-height: 100%;
+    height: auto;
+    min-height: 90%;
     background-color: #fff;
 }
+
+#tweet_list{
+    border: solid 2px #999;
+    border-bottom: solid 1px #999;
+    width: 40%;
+}
+
+div.tweet{
+    padding: 1px 3px 1px;
+    border-bottom: solid 1px #999;
+}
+
+div.username{
+    text-align: left;
+    float: left;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+div.time{
+    text-align: right;
+}
+
+div.tweet_text{
+    margin: 10px 0 0;
+}
+
+#no_tweet{
+    display: none;
+}
+

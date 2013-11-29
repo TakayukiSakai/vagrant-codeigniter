@@ -33,27 +33,27 @@ class Signin extends CI_Controller
         if ($result === 0){
         #認証失敗
             #validation error
-            $this->load->view('twitter/templates/header', $page);
-            $this->load->view('twitter/signin', $page);
+            $this->load->view('twitter/templates/head_header', $page);
+            $this->load->view('twitter/templates/body_header', $page);
+            $this->load->view('twitter/signin_body', $page);
             $this->load->view('twitter/templates/footer');
         }elseif ($result === 1){
             #アドレスとパスワードの不一致
             $page['message'] = 'メールアドレスとパスワードの組み合わせが間違っているようです。';
-            $this->load->view('twitter/templates/header', $page);
-            $this->load->view('twitter/signin', $page);
+            $this->load->view('twitter/templates/head_header', $page);
+            $this->load->view('twitter/templates/body_header', $page);
+            $this->load->view('twitter/signin_body', $page);
             $this->load->view('twitter/templates/footer');
         }else{
         #認証成功
-            $newdata = array(
-                'username' => $result
-            );
+            $newdata = $result;
             $this->session->set_userdata($newdata);
             redirect('/mypage', 'location');
         }
     }
 
     #ログインできるかチェックする。
-    #できれば、ユーザー名を返す
+    #できれば、ユーザーIDとユーザー名が入った配列を返す
     private function input_check(){
         if ($this->form_validation->run() === false){
             #入力構文エラーの場合は自動でエラー文が生成されるので、""を返す。

@@ -7,7 +7,7 @@ class User_model extends CI_Model
     }
 
     #認証用関数
-    #認証に成功したときのみユーザー名を返す
+    #認証に成功したときのみユーザーIDとユーザー名をが入った配列を返す
     #それ以外のときはfalseを返す
     public function signin($data)
     {
@@ -30,14 +30,17 @@ class User_model extends CI_Model
                 return false;
             }else{
             #成功
-                return $result[0]['name'];
+                return array(
+                    'user_id' => $result[0]['id'],
+                    'username' => $result[0]['name']
+                );
             }
         }
 
     }
 
     #登録用関数
-    #登録に成功したときのみtrueを返す
+    #登録に成功したときのみユーザーIDを返す
     #それ以外のときはfalseを返す
     public function signup($data)
     {
@@ -57,7 +60,9 @@ class User_model extends CI_Model
             $data['password'] = $this->encrypt($data['password'], $salt);
             $data['signup_time'] = $time;
             $data['salt'] = $salt;
-            return $this->db->insert('user', $data);
+            $this->db->insert('user', $data);
+            $query = $this->db->get_where('user', array('address' => $data['address']));
+            return $query->result_array()[0]['id'];
         }
     }
 
@@ -65,10 +70,14 @@ class User_model extends CI_Model
     #ソルトとストレッチングを行う
     private function encrypt($string, $salt)
     {
-        $stretch = 100;
+        $stretch = 114;
 
         for ($i = 0; $i < $stretch; $i++){
-            $string = hash('sha256', $string . $salt);
+            if ($i % 3 == 0){
+                $string = hash('sha256', $salt . $string);
+            }else{
+                $string = hash('sha256', $string . $salt);
+            }
         }
         return $string;
     }

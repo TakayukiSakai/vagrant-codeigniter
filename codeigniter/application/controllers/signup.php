@@ -30,17 +30,26 @@ class Signup extends CI_Controller
         $this->form_validation->set_rules('address', 'メールアドレス', 'trim|required|valid_email');
         $this->form_validation->set_rules('pass', 'パスワード', 'trim|required|alpha_numeric|min_length[6]');
 
-        $err_message = $this->input_check();
+        $result = $this->input_check();
 
-        if ($err_message != 'OK'){
+        if ($result === 0){
         #登録失敗
-            $page['message'] = $err_message;
-            $this->load->view('twitter/templates/header', $page);
-            $this->load->view('twitter/signup', $page);
+            #validation error
+            $this->load->view('twitter/templates/head_header', $page);
+            $this->load->view('twitter/templates/body_header', $page);
+            $this->load->view('twitter/signup_body', $page);
+            $this->load->view('twitter/templates/footer');
+        }elseif ($result === 1){
+            #メールアドレスが既に登録されていた
+            $page['message'] = 'そのメールアドレスは既に登録されています。';
+            $this->load->view('twitter/templates/head_header', $page);
+            $this->load->view('twitter/templates/body_header', $page);
+            $this->load->view('twitter/signup_body', $page);
             $this->load->view('twitter/templates/footer');
         }else{
         #登録成功
             $newdata = array(
+                'user_id' => $result,
                 'username' => $page['name']
             );
 
@@ -50,12 +59,11 @@ class Signup extends CI_Controller
     }
 
     #登録できるかチェックする。
-    #できなければ、理由を書いた文字列を返す
-    #できれば、'OK'を返す
+    #できれば、ユーザーIDを返す
     private function input_check(){
         if ($this->form_validation->run() === false){
             #入力構文エラーの場合は自動でエラー文が生成されるので、""を返す。
-            return "";
+            return 0;
         }else{
             $signup_data = array(
                 'name' => $this->input->post('name'),
@@ -63,10 +71,12 @@ class Signup extends CI_Controller
                 'password' => $this->input->post('pass')
             );
 
-            if (!$this->user_model->signup($signup_data)){
-                return 'そのメールアドレスは既に登録されています。';
+            $result = $this->user_model->signup($signup_data);
+            if ($result === false){
+            #メールアドレスが既に登録されていた
+                return 1;
             }else{
-                return 'OK';
+                return $result;
             }
         }
     }
