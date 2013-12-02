@@ -3,7 +3,7 @@
 
     <?php echo form_open('tweet', array('id' => 'CI_form')); ?>
 
-        <textarea name="tweet_text" id="tweet_text" rows="5" cols="40" style="font-size:16px"></textarea><br />
+        <textarea name="tweet_text" id="tweet_text" rows="6" cols="45" style="font-size:16px"></textarea><br />
 
         <input type="submit" name="tweet_btn" id="tweet_btn" value="ツイート" disabled="disabled" /><div id="count">140</div>
         <div id="tweet_error"></div>

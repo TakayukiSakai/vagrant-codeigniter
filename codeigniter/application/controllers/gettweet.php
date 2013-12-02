@@ -17,6 +17,8 @@ class Gettweet extends CI_Controller
         $tweetArray = $this->tweet_model->getTweet($data);
         for ($i = 0; $i < count($tweetArray); $i++){
             $tweetArray[$i]['username'] = $this->session->userdata('username');
+            $date = new DateTime($tweetArray[$i]['time']);
+            $tweetArray[$i]['timestamp'] = $date->format('U');
         }
 
         echo json_encode($tweetArray);

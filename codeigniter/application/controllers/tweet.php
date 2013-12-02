@@ -32,10 +32,12 @@ class Tweet extends CI_Controller
                     'msg' => 'server error'
                 ));
             }else{
+                $date = new DateTime($tweet_time);
                 echo json_encode(array(
                     'check' => true,
                     'username' => $this->session->userdata('username'),
-                    'time' => $tweet_time
+                    'time' => $tweet_time,
+                    'timestamp' => $date->format('U')
                 ));
             }
         }

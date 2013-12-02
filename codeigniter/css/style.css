@@ -39,6 +39,7 @@ body > #main{
     height: auto;
     min-height: 90%;
     background-color: #fff;
+    overflow: hidden;
 }
 
 #tweet_form{
@@ -84,8 +85,8 @@ div.time{
     text-align: right;
 }
 
-div.tweet_text{
-    margin: 10px 0 0;
+#tweet_text{
+    margin: 0 0 10px;
 }
 
 #no_tweet{

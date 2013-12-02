@@ -23,6 +23,8 @@ class Mypage extends CI_Controller
         $page['title'] = 'ホーム';
         $page['message'] = '';
         $page['username'] = $this->session->userdata('username');
+        $date = new DateTime();
+        $page['timestamp'] = $date->format('U');
 
         $this->load->view('twitter/templates/head_header', $page);
         $this->load->view('twitter/mypage_head', $page);
