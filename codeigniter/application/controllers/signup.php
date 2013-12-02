@@ -22,9 +22,6 @@ class Signup extends CI_Controller
         $page['title'] = 'ユーザー登録';
         $page['message'] = '';
         $page['username'] = $this->session->userdata('username');
-        $page['name'] = $this->input->post('name');
-        $page['address'] = $this->input->post('address');
-        $page['password'] = $this->input->post('pass');
 
         $this->form_validation->set_rules('name', '名前', 'trim|required');
         $this->form_validation->set_rules('address', 'メールアドレス', 'trim|required|valid_email');
@@ -50,7 +47,7 @@ class Signup extends CI_Controller
         #登録成功
             $newdata = array(
                 'user_id' => $result,
-                'username' => $page['name']
+                'username' => $this->input->post('name')
             );
 
             $this->session->set_userdata($newdata);

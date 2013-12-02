@@ -22,8 +22,6 @@ class Signin extends CI_Controller
         $page['title'] = 'ログイン';
         $page['message'] = '';
         $page['username'] = $this->session->userdata('username');
-        $page['address'] = $this->input->post('address');
-        $page['password'] = $this->input->post('pass');
 
         $this->form_validation->set_rules('address', 'メールアドレス', 'trim|required|valid_email');
         $this->form_validation->set_rules('pass', 'パスワード', 'trim|required|alpha_numeric|min_length[6]');

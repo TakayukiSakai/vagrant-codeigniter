@@ -13,8 +13,14 @@ class Tweet_model extends CI_Model
     public function tweet($data)
     {
         # $dataには既にuser_idとtextは入っている
+        # ツイート登録成功したら、ツイート時刻を返す
+        # 失敗したら、falseを返す
         $data['time'] = date("Y-m-d H:i:s");
-        return $this->db->insert('tweet', $data);
+        if ($this->db->insert('tweet', $data)){
+            return $data['time'];
+        }else{
+            return false;
+        }
     }
 
     #過去のツイートを取得するための関数

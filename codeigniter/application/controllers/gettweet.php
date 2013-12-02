@@ -20,17 +20,5 @@ class Gettweet extends CI_Controller
         }
 
         echo json_encode($tweetArray);
-#        $array = array(
-#            array(
-#                'username' => 'realworld',
-#                'text' => '初ツイート',
-#                'time' => '2013-10-26 00:00:00'
-#            ),array(
-#                'username' => 'realworld',
-#                'text' => '二回目ツイート',
-#                'time' => '2013-10-28 12:02:42'
-#            )
-#        );
-#        echo json_encode($array);
     }
 }

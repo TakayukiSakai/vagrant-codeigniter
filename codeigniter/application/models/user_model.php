@@ -36,7 +36,6 @@ class User_model extends CI_Model
                 );
             }
         }
-
     }
 
     #登録用関数

@@ -7,10 +7,10 @@
 <?php echo form_open('signin') ?>
 
     <label for="address">メールアドレス</label>
-    <input type="input" name="address" value=<?php echo $address ?> ></input><br />
+    <input type="input" name="address" value=<?php echo set_value('address'); ?> ></input><br />
 
     <label for="pass">パスワード</label>
-    <input type="password" name="pass" value=<?php echo $password ?> ></input><br />
+    <input type="password" name="pass" value=<?php echo set_value('pass'); ?> ></input><br />
 
     <input type="submit" name="signin" value="ログインする" /><br /><br />
 

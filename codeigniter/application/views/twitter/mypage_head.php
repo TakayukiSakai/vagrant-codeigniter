@@ -5,7 +5,51 @@
         var stored_time = "2100-12-31 11:59:59";
         getTweet();
 
-        $(document).ready(function ()
+        $(function ()
+        {
+            $("#tweet_text").bind("keyup", function(event)
+            {
+                var current_length = $("#tweet_text").val().length;
+                $("#count").html(140 - current_length);
+                if (current_length == 0 || current_length > 140){
+                    $("#tweet_btn").attr("disabled", "disabled");
+                }else{
+                    $("#tweet_btn").removeAttr("disabled");
+                }
+            });
+        });
+
+        $(function ()
+        {
+            $("#CI_form").submit(function (event)
+            {
+                event.preventDefault();
+                var text = $("#tweet_text").val();
+                $.post(
+                    $("#CI_form").attr("action"),
+                    $("#CI_form").serialize(),
+                    function (data)
+                    {
+                        if (data['check'] === false){
+                            $("#tweet_error").html(data["msg"]);
+                        }else{
+                            $("#tweet_error").html("");
+                            $("#tweet_list").prepend(createTweetHTML(
+                                data['username'],
+                                data['time'],
+                                text
+                            ));
+                            $("#tweet_text").val("");
+                            $("#count").html("140");
+                            $("#tweet_btn").attr("disabled", "disabled");
+                        }
+                    },
+                    "json"
+                );
+            });
+        });
+
+        $(function ()
         {
             $("#get_tweet_btn").click(getTweet);
         });
@@ -30,7 +74,7 @@
                                 data[i]['text']
                             ));
                         }
-                        //取得したツイート時刻を更新
+                        //取得したツイートの中で最も古い時刻を更新
                         stored_time = data[i-1]['time'];
                     }
                     if (data.length < 10){
@@ -53,3 +97,4 @@
             return return_HTML;
         }
     </script>
+
