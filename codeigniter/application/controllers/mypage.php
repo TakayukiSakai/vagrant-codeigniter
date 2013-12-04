@@ -22,7 +22,7 @@ class Mypage extends CI_Controller
 
         $page['title'] = 'ホーム';
         $page['message'] = '';
-        $page['username'] = $this->session->userdata('username');
+        $page['username'] = htmlspecialchars($this->session->userdata('username'));
         $date = new DateTime();
         $page['timestamp'] = $date->format('U');
 

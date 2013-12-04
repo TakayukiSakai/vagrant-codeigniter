@@ -16,9 +16,10 @@ class Gettweet extends CI_Controller
         );
         $tweetArray = $this->tweet_model->getTweet($data);
         for ($i = 0; $i < count($tweetArray); $i++){
-            $tweetArray[$i]['username'] = $this->session->userdata('username');
+            $tweetArray[$i]['username'] = htmlspecialchars($this->session->userdata('username'));
             $date = new DateTime($tweetArray[$i]['time']);
             $tweetArray[$i]['timestamp'] = $date->format('U');
+            $tweetArray[$i]['text'] = htmlspecialchars($tweetArray[$i]['text']);
         }
 
         echo json_encode($tweetArray);

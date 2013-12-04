@@ -35,9 +35,10 @@ class Tweet extends CI_Controller
                 $date = new DateTime($tweet_time);
                 echo json_encode(array(
                     'check' => true,
-                    'username' => $this->session->userdata('username'),
+                    'username' => htmlspecialchars($this->session->userdata('username')),
                     'time' => $tweet_time,
-                    'timestamp' => $date->format('U')
+                    'timestamp' => $date->format('U'),
+                    'text' => htmlspecialchars($data['text'])
                 ));
             }
         }

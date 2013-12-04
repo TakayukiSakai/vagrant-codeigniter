@@ -40,7 +40,7 @@
                                 data['username'],
                                 data['time'],
                                 data['timestamp'],
-                                text
+                                data['text']
                             ));
                             $("#tweet_text").val("");
                             $("#count").html("140");
