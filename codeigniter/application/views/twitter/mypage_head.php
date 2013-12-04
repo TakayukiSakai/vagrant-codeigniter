@@ -3,12 +3,11 @@
     <script src="/js/datetime.min.js"></script>
     <script type="text/javascript">
 
-        var stored_time = "2100-12-31 11:59:59";
-        getTweet();
-        var timerID = setInterval("updateTime()", 60 * 1000);
-
         $(function ()
         {
+            gettweet();
+            var timerID = setInterval("updateTime()", 60 * 1000);
+
             $("#tweet_text").bind("keyup", function(event)
             {
                 var current_length = $("#tweet_text").val().length;
@@ -19,14 +18,10 @@
                     $("#tweet_btn").removeAttr("disabled");
                 }
             });
-        });
 
-        $(function ()
-        {
             $("#CI_form").submit(function (event)
             {
                 event.preventDefault();
-                var text = $("#tweet_text").val();
                 $.post(
                     $("#CI_form").attr("action"),
                     $("#CI_form").serialize(),
@@ -51,23 +46,20 @@
                     "json"
                 );
             });
+
+            $("#CI_get_tweet").submit(function (event)
+            {
+                event.preventDefault();
+                gettweet();
+            });
         });
 
-        $(function ()
+        function gettweet()
         {
-            $("#get_tweet_btn").click(getTweet);
-        });
-
-        function getTweet()
-        {
-            $.ajax({
-                type : "post",
-                dataType : "json",
-                url : "/gettweet",
-                data : {
-                    "stored_time" : stored_time
-                },
-                success : function(data)
+            $.post(
+                $("#CI_get_tweet").attr("action"),
+                $("#CI_get_tweet").serialize(),
+                function (data)
                 {
                     var i = 0;
                     if (data.length != 0){
@@ -80,18 +72,18 @@
                             ));
                         }
                         //取得したツイートの中で最も古い時刻を更新
-                        stored_time = data[i-1]['time'];
+                        $("input[name=stored_time]").val(data[i-1]['time']);
                         updateTime();
                     }
                     if (data.length < 10){
                         document.getElementById("no_tweet").style.display = "inline";
-                        document.getElementById("get_tweet_btn").disabled = "true";
+                        $("#get_tweet_btn").attr("disabled", "disabled");
                     }
-                }
-            });
+                },
+                "json"
+            );
         }
 
-//        function createTweetHTML(name, time, text)
         function createTweetHTML(name, time, timestamp, text)
         {
             var return_HTML = '';

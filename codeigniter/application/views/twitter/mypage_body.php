@@ -13,7 +13,12 @@
 
 <div id="tweet_right">
     <div id="tweet_list"></div>
-    <button id="get_tweet_btn">もっと見る</button>
-    <span id="no_tweet">これ以前のツイートはありません。</span>
+
+    <?php echo form_open('gettweet', array('id' => 'CI_get_tweet')); ?>
+
+        <input type="hidden" name="stored_time" value="2100-12-31 11:59:59" />
+        <input type="submit" id="get_tweet_btn" value="もっと見る" />
+        <div id="no_tweet">これ以前のツイートはありません。</div>
+    </form>
 </div>
 
